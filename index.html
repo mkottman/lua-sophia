@@ -1,0 +1,369 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Reference</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>ldoc</h1>
+
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Class_environment">Class environment </a></li>
+<li><a href="#Class_database">Class database </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><strong>sophia</strong></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>sophia</code></h1>
+
+<p>lua-sophia, a Lua binding to the <a href="http://sphia.org">Sophia</a> embeddable key-value database.</p>
+<p>
+
+<p>The database stores only Lua string keys and values, for storing more complex types
+use a serialization library, such as MessagePack.</p>
+
+<p>Usage:</p>
+<pre><code>local sophia = require "sophia"
+local env = sophia.env() -- create a new environment
+env:ctl("dir", "db") -- set the directory where the database is/will be stored
+
+local db = ctl:open() -- open the database handle
+
+-- store and retrieve a value
+db:set("greeting", "Hello world!")
+print(db:get("greeting")) --&gt; Hello world!
+</code></pre>
+
+</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Author</strong>: Michal Kottman</li>
+    </ul>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#env">env&nbsp;()</a></td>
+	<td class="summary">Create a new Sophia environment handle.</td>
+	</tr>
+</table>
+<h2><a href="#Class_environment">Class environment </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#environment:ctl">environment:ctl&nbsp;(option, ...)</a></td>
+	<td class="summary">Configure a database.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#environment:open">environment:open&nbsp;()</a></td>
+	<td class="summary">Open a database.</td>
+	</tr>
+</table>
+<h2><a href="#Class_database">Class database </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#database:begin">database:begin&nbsp;()</a></td>
+	<td class="summary">Begin a transaction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#database:commit">database:commit&nbsp;()</a></td>
+	<td class="summary">Commit a transaction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#database:rollback">database:rollback&nbsp;()</a></td>
+	<td class="summary">Rollback a transaction.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#database:get">database:get&nbsp;(key)</a></td>
+	<td class="summary">Retrieve a value from the database.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#database:set">database:set&nbsp;(key, value)</a></td>
+	<td class="summary">Set or delete a value in the database.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#database:cursor">database:cursor&nbsp;()</a></td>
+	<td class="summary">Iterate over the keys and values in the database.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Functions"></a>Functions</h2>
+    <dl class="function">
+    <dt>
+    <a name = "env"></a>
+    <strong>env&nbsp;()</strong>
+    </dt>
+    <dd>
+    Create a new Sophia environment handle.  This can be used to open database handles.
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="index.html#Class_environment">environment</a></span>
+        A new environment
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Class_environment"></a>Class environment </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "environment:ctl"></a>
+    <strong>environment:ctl&nbsp;(option, ...)</strong>
+    </dt>
+    <dd>
+    Configure a database.
+Currently only <code>"dir"</code> option is supported. This needs to be run before <code>environment:open()</code> to
+set the directory where data is stored. Example: <code>env:ctl("dir", "db-directory")</code>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">option</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         An option to configure</li>
+        <li><span class="parameter">...</span>
+         Additional data for the given option</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>true</strong> on success, <strong>nil, message</strong> on error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "environment:open"></a>
+    <strong>environment:open&nbsp;()</strong>
+    </dt>
+    <dd>
+    Open a database.  You need to set the database directory by using <code>environment:ctl("dir")</code>
+before opening the database.
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+          <span class="types"><a class="type" href="index.html#Class_database">database</a></span>
+        on success, <strong>nil, message</strong> on error
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Class_database"></a>Class database </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "database:begin"></a>
+    <strong>database:begin&nbsp;()</strong>
+    </dt>
+    <dd>
+    Begin a transaction. </p>
+
+<p>During transaction, all updates are not written to the database files
+until a <a href="index.html#database:commit">database:commit</a> is called. All updates made during transaction are
+available through <a href="index.html#database:get">database:get</a> or by using cursor.
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>true</strong> on success, <strong>nil, message</strong> on error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "database:commit"></a>
+    <strong>database:commit&nbsp;()</strong>
+    </dt>
+    <dd>
+    Commit a transaction. </p>
+
+<p>This function is used to apply changes of a multi-statement
+transaction. All modifications made during the transaction are written to
+the log file in a single batch. If commit failed, transaction modifications are discarded.
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>true</strong> on success, <strong>nil, message</strong> on error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "database:rollback"></a>
+    <strong>database:rollback&nbsp;()</strong>
+    </dt>
+    <dd>
+    Rollback a transaction. </p>
+
+<p>This function is used to discard a changes of a multi-statement
+transaction. All modifications made during the transaction are not written to
+the log file.
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        <strong>true</strong> on success, <strong>nil, message</strong> on error
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "database:get"></a>
+    <strong>database:get&nbsp;(key)</strong>
+    </dt>
+    <dd>
+    Retrieve a value from the database. </p>
+
+<p>If the <code>key</code> is not in the database, it return <strong>nil</strong>, as in standard Lua table lookup.
+In case of error while retrieving the value, it returns an extra error message.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The key to lookup in the database</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+          <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+        value of <code>key</code> if found in database</li>
+        <li>
+        <strong>nil</strong> if the value is not in the database</li>
+        <li>
+        <strong>nil, message</strong> in case there was an error retrieving the value</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "database:set"></a>
+    <strong>database:set&nbsp;(key, value)</strong>
+    </dt>
+    <dd>
+    Set or delete a value in the database. </p>
+
+<p>The <code>value</code> is stored in the database under <code>key</code>. If <code>value</code> is <strong>nil</strong>,
+the given key is deleted from the database.
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">key</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The key under which to store the value</li>
+        <li><span class="parameter">value</span>
+            <span class="types"><a class="type" href="http://www.lua.org/manual/5.1/manual.html#5.4">string</a></span>
+         The value to store in database.</li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>
+        <strong>true</strong> if the value was stored</li>
+        <li>
+        <strong>nil, message</strong> in case there was an error retrieving the value</li>
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "database:cursor"></a>
+    <strong>database:cursor&nbsp;()</strong>
+    </dt>
+    <dd>
+
+<p>Iterate over the keys and values in the database. </p>
+
+<p>This function returns values necessary for the <code>for</code> Lua iterator. Example:</p>
+
+<pre><code>for k, v in db:cursor() do
+    print(k, v)
+end
+</code></pre>
+
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        values necessary for the <code>for</code> iterator
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.3.12</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
