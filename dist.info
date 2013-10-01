@@ -1,0 +1,14 @@
+--- This file is part of LuaDist project
+
+name = "lua-sophia"
+version = "1.0"
+
+desc = "Lua binding to the Sophia embeddable key-value database"
+author = "Michal Kottman"
+license = "MIT"
+maintainer = "Michal Kottman"
+url = "http://github.com/mkottman/lua-sophia"
+
+depends = {
+	"libsophia"
+}
