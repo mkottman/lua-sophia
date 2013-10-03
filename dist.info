@@ -10,5 +10,6 @@ maintainer = "Michal Kottman"
 url = "http://github.com/mkottman/lua-sophia"
 
 depends = {
+	"lua >= 5.1",
 	"libsophia"
 }

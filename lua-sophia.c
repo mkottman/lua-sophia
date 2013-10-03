@@ -30,6 +30,9 @@ Usage:
 
 #if LUA_VERSION_NUM < 502
 #  define luaL_newlib(L,l) (lua_newtable(L), luaL_register(L,NULL,l))
+#  define REGISTER(L, m)   luaL_register(L, NULL, m)
+#else
+#  define REGISTER(L, m)   luaL_setfuncs(L, m, 0)
 #endif
 
 /* Workaround while upstream does not fix the default key comparison functions */
@@ -354,6 +357,13 @@ static int ls_cursor(lua_State *L)
 }
 
 
+/** Close a database.
+@function database:close
+*/
+/* re-uses __gc */
+
+
+
 static luaL_Reg sophia_module[] = {
 	{"env", ls_env},
 	{NULL, NULL},
@@ -368,6 +378,7 @@ static luaL_Reg sophia_env_methods[] = {
 
 static luaL_Reg sophia_db_methods[] = {
 	{"__gc", ls_destroy},
+	{"close", ls_destroy},
 	{"begin", ls_begin},
 	{"commit", ls_commit},
 	{"rollback", ls_rollback},
@@ -388,7 +399,7 @@ static void create_meta(lua_State *L, const char * name, luaL_Reg* methods)
 	luaL_newmetatable(L, name);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
-	luaL_register(L, NULL, methods);
+	REGISTER(L, methods);
 }
 
 int luaopen_sophia(lua_State *L)
